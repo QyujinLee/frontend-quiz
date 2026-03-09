@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# frontend-quiz
 
-## Getting Started
+모바일(출퇴근) 학습용 프론트엔드 퀴즈 웹앱 초기 템플릿입니다.
 
-First, run the development server:
+- Framework: Next.js (App Router)
+- Language: TypeScript
+- Package manager: Yarn
+
+## 1) 로컬 실행
 
 ```bash
-npm run dev
-# or
+yarn install
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- 브라우저: `http://localhost:3000`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 2) 퀴즈 JSON 파일 위치
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+퀴즈 데이터는 아래 경로에 넣으면 됩니다.
 
-## Learn More
+- `public/quizzes/*.json`
 
-To learn more about Next.js, take a look at the following resources:
+예: `public/quizzes/javascript.json`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+정적 파일이므로 클라이언트에서 `/quizzes/javascript.json` 경로로 불러올 수 있습니다.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 3) 스크립트
 
-## Deploy on Vercel
+```bash
+yarn dev
+yarn build
+yarn start
+yarn lint
+yarn typecheck
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 4) 배포
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Vercel
+
+기본 설정 그대로 배포하면 됩니다.
+
+### GitHub Pages
+
+이 프로젝트는 GitHub Pages용 정적 export를 지원하도록 설정되어 있습니다.
+
+필수 환경변수:
+
+- `NEXT_PUBLIC_DEPLOY_TARGET=github-pages`
+- `NEXT_PUBLIC_GITHUB_REPO=<repo-name>`
+
+예를 들어 저장소가 `https://github.com/<user>/frontend-quiz` 라면 `<repo-name>`은 `frontend-quiz` 입니다.
+
+이 값이 설정되면 `next.config.ts`에서 아래를 자동 적용합니다.
+
+- `output: "export"`
+- `basePath` / `assetPrefix`
+- `images.unoptimized: true`
+
+## 5) 다음 작업
+
+JSON 구조를 주시면 타입(`type`) 정의와 퀴즈 화면(문항/정답 체크/진도 저장)까지 바로 연결하겠습니다.
