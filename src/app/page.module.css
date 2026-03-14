@@ -13,8 +13,9 @@
   height: calc(100dvh - 20px);
   margin: 0 auto;
   display: grid;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto auto 1fr;
   gap: 10px;
+  min-height: 0;
 }
 
 .header {
@@ -30,14 +31,80 @@
   letter-spacing: 0.02em;
 }
 
-.header p {
+.categoryLabel {
+  margin-top: 4px;
+  font-size: 0.8rem;
+  color: #9fb0d1;
+}
+
+.progress {
   font-size: 0.92rem;
   font-weight: 700;
+}
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 2px 2px 6px;
+  scrollbar-width: none;
+}
+
+.tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.tab {
+  flex: 0 0 auto;
+  border: 1px solid #31415f;
+  border-radius: 999px;
+  background: rgb(19 26 40 / 82%);
+  color: #bcc8e0;
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 9px 12px;
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    transform 0.18s ease;
+}
+
+.tab[data-active="true"] {
+  background: #edf2ff;
+  border-color: #edf2ff;
+  color: #131a2b;
+  transform: translateY(-1px);
+}
+
+.categorySelectWrap {
+  display: none;
+}
+
+.categorySelectLabel {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #aab9d6;
+}
+
+.categorySelect {
+  width: 100%;
+  border: 1px solid #31415f;
+  border-radius: 14px;
+  background: #131a28;
+  color: #edf2ff;
+  font-size: 0.92rem;
+  font-weight: 700;
+  padding: 12px 14px;
+  outline: none;
 }
 
 .cardStage {
   position: relative;
   overflow: hidden;
+  min-height: 0;
 }
 
 .card {
@@ -48,6 +115,7 @@
   box-shadow: 0 16px 36px rgb(5 9 16 / 42%);
   display: grid;
   grid-template-rows: 1fr auto;
+  min-height: 0;
 }
 
 .cardBody {
@@ -56,6 +124,9 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+  min-height: 0;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
 }
 
 .meta {
@@ -149,6 +220,14 @@
   .main {
     height: calc(100dvh - 40px);
     gap: 14px;
+  }
+
+  .tabs {
+    display: none;
+  }
+
+  .categorySelectWrap {
+    display: block;
   }
 
   .header h1 {

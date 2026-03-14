@@ -64,6 +64,7 @@ export default function Home() {
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showAnswer, setShowAnswer] = useState(false);
   const [direction, setDirection] = useState<1 | -1>(1);
@@ -94,11 +95,30 @@ export default function Home() {
     loadQuestions();
   }, []);
 
-  const total = questions.length;
+  const categories = useMemo(() => {
+    const values = Array.from(new Set(questions.map((question) => question.category)));
+    return ["All", ...values];
+  }, [questions]);
+
+  const filteredQuestions = useMemo(() => {
+    if (selectedCategory === "All") {
+      return questions;
+    }
+
+    return questions.filter((question) => question.category === selectedCategory);
+  }, [questions, selectedCategory]);
+
+  const total = filteredQuestions.length;
   const currentQuestion = useMemo(
-    () => questions[currentIndex],
-    [questions, currentIndex],
+    () => filteredQuestions[currentIndex],
+    [filteredQuestions, currentIndex],
   );
+
+  useEffect(() => {
+    setCurrentIndex(0);
+    setShowAnswer(false);
+    setDirection(1);
+  }, [selectedCategory]);
 
   const moveQuestion = (step: 1 | -1) => {
     if (total === 0) return;
@@ -154,17 +174,59 @@ export default function Home() {
     <div className={styles.page}>
       <main className={styles.main}>
         <header className={styles.header}>
-          <h1>Frontend Quiz</h1>
-          <p>
+          <div>
+            <h1>Frontend Quiz</h1>
+            <p className={styles.categoryLabel}>
+              {selectedCategory === "All" ? "전체 카테고리" : selectedCategory}
+            </p>
+          </div>
+          <p className={styles.progress}>
             {currentIndex + 1} / {total}
           </p>
         </header>
+
+        <nav className={styles.tabs} aria-label="문제 카테고리">
+          {categories.map((category) => {
+            const isActive = category === selectedCategory;
+
+            return (
+              <button
+                key={category}
+                type="button"
+                className={styles.tab}
+                data-active={isActive}
+                onClick={() => setSelectedCategory(category)}
+              >
+                {category === "All" ? "전체" : category}
+              </button>
+            );
+          })}
+        </nav>
+
+        <div className={styles.categorySelectWrap}>
+          <label className={styles.categorySelectLabel} htmlFor="category-select">
+            카테고리
+          </label>
+          <select
+            id="category-select"
+            className={styles.categorySelect}
+            value={selectedCategory}
+            onChange={(event) => setSelectedCategory(event.target.value)}
+          >
+            {categories.map((category) => (
+              <option key={category} value={category}>
+                {category === "All" ? "전체" : category}
+              </option>
+            ))}
+          </select>
+        </div>
 
         <section className={styles.cardStage}>
           <AnimatePresence initial={false} mode="wait">
             <motion.article
               key={currentQuestion.id}
               className={styles.card}
+              style={{ touchAction: "pan-y" }}
               drag="x"
               dragConstraints={{ left: 0, right: 0 }}
               dragElastic={0.18}
