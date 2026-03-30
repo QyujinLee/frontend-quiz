@@ -15,6 +15,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Frontend Quiz",
   description: "모바일 학습용 프론트엔드 퀴즈",
+  manifest: "/manifest.json",
+  icons: {
+    icon: "/img/front-end-quiz-logo.png",
+    apple: "/img/front-end-quiz-logo.png",
+  },
 };
 
 export default function RootLayout({

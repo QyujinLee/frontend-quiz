@@ -1,0 +1,17 @@
+{
+  "name": "Frontend Quiz",
+  "short_name": "FE Quiz",
+  "description": "모바일 학습용 프론트엔드 퀴즈",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f121a",
+  "theme_color": "#131722",
+  "icons": [
+    {
+      "src": "/img/front-end-quiz-logo.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
